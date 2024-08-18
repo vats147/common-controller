@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const Schema = require('../schema/schema.js')
 const uuid = require('uuid')
 
-insert()
-
 
 exports.insert = async (req,res,next) =>{
     const indexName = req.params.indexName;
