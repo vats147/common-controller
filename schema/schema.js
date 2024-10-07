@@ -1,14 +1,16 @@
 // schema.js
 const schemas = {
-    "user": {
-        name: { type: String },
-        email: { type: String },
-        createdOn: { type: String },
-        updatedOn: { type: String },
-        
-    },
-    "profile":{
-        email: { type: String },
+   
+    "data" :{
+        dataId : { type: String },
+        title: { type: String },
+        summray: { type: String },
+        Participants : [{ type : String }],
+        date : { type :String },
+        tags : [ { type : String }],
+        link : { type :String },
+        createdOn: { type: String,default :Date.now() },
+       
     },
     "blog" :{
         title  : { type :String },

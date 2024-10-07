@@ -14,7 +14,7 @@ exports.insert = async (req,res,next) =>{
 
     data.createdOn = new Date().toISOString();
     data.updatedOn = new Date().toISOString();
-    console.log(data)
+    
     try{
         
         const Model = mongoose.models[`${indexName}Model`] || mongoose.model(`${indexName}Model`, Schema[indexName], `${indexName}s`);
@@ -68,3 +68,44 @@ exports.update = async (req,res,next) =>{
     }
 
 }
+
+
+
+exports.findOne = async (req, res, next) => {
+    const indexName = req.params.indexName;
+    const id = req.params.id;
+    
+   
+    try {
+        const Model = mongoose.models[`${indexName}Model`] || mongoose.model(`${indexName}Model`, Schema[indexName], `${indexName}s`);
+            
+               let  document = await Model.findOne({ $or: [
+                    { [`${indexName}Id`]: id }]}); 
+                
+        
+        if (!document) {
+            return res.status(404).send({ error: 'Document not found' });
+        }
+
+        res.json(document);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ error: err.message });
+    }
+};
+
+exports.find = async (req, res, next) => {
+    const indexName = req.params.indexName;
+    console.log(indexName)
+    const query = req.body;
+
+    try {
+        const Model = mongoose.models[`${indexName}Model`] || mongoose.model(`${indexName}Model`, Schema[indexName], `${indexName}s`);
+        const documents = await Model.find(query);
+
+        res.json(documents);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ error: err.message });
+    }
+};
