@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-
-const {checkIndex} = require('../middleware/checkIndex.js');
+const { authenticate, allowPublicAccess, logout } = require('../middleware/auth.js');
 const commonController = require('../controller/commonController.js');
 
-router.post('/:indexName', commonController.insert);
-router.get('/:indexName/:id', commonController.findOne);
+// Logout route
+router.post('/logout', authenticate, logout);
 
-router.get('/:indexName', commonController.find);
+// Public access routes
+router.get('/:indexName/:id', allowPublicAccess, commonController.findOne);
+router.get('/:indexName', allowPublicAccess, commonController.find);
 
+// Protected routes
+router.post('/:indexName', authenticate, commonController.insert);
 
 
 module.exports = router;
-
-
-

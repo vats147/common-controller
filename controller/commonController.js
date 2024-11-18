@@ -98,11 +98,12 @@ exports.find = async (req, res, next) => {
     const indexName = req.params.indexName;
     console.log(indexName)
     const query = req.body;
-
+    console.log("query" , query);
     try {
         const Model = mongoose.models[`${indexName}Model`] || mongoose.model(`${indexName}Model`, Schema[indexName], `${indexName}s`);
         const documents = await Model.find(query);
-
+        
+        console.log("inside get",documents);
         res.json(documents);
     } catch (err) {
         console.log(err);
